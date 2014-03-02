@@ -41,7 +41,7 @@
     
     [self addChild:self.newgame];
     
-    SPImage* logo = [[SPImage alloc] initWithContentsOfFile:@"Monster-Mayhem.png"];
+    SPImage* logo = [[SPImage alloc] initWithContentsOfFile:@"Monster-Stomper.png"];
     logo.scaleX = Sparrow.stage.width / logo.width;
     logo.scaleY = Sparrow.stage.width / logo.width;
     logo.x = (Sparrow.stage.width - logo.width) / 2.0;

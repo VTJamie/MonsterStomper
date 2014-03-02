@@ -1,6 +1,6 @@
 //
 //  GCHelper.h
-//  MonsterMayhem
+//  MonsterStomper
 //
 //  Created by Jamieson Abbott on 2/26/14.
 //
