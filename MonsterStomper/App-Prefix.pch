@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import <Box2D/Box2D.h>
 #import "Sparrow.h"
 #import "Media.h"
 #import "Game.h"

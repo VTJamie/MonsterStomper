@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MonsterMash.xcodeproj">
+      location = "self:MonsterStomper.xcodeproj">
    </FileRef>
 </Workspace>

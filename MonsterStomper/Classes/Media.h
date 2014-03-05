@@ -1,6 +1,6 @@
 //
 //  Media.h
-//  AppMonsterMash
+//  AppMonsterStomper
 //
 
 #import <Foundation/Foundation.h>

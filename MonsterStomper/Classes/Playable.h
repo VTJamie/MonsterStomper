@@ -1,6 +1,6 @@
 //
 //  Playable.h
-//  MonsterMash
+//  MonsterStomper
 //
 //  Created by Jamieson Abbott on 2/23/14.
 //

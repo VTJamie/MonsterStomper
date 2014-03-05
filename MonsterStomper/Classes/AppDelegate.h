@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  AppMonsterMash
+//  AppMonsterStomper
 //
 
 #import <UIKit/UIKit.h>

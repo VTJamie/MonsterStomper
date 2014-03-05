@@ -1,6 +1,6 @@
 //
 //  Death.h
-//  MonsterMash
+//  MonsterStomper
 //
 //  Created by Jamieson Abbott on 2/24/14.
 //

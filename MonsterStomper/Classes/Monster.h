@@ -1,6 +1,6 @@
 //
 //  Menu.h
-//  MonsterMash
+//  MonsterStomper
 //
 //  Created by Jamieson Abbott on 2/4/14.
 //

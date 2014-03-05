@@ -1,6 +1,6 @@
 //
 //  Background.h
-//  MonsterMash
+//  MonsterStomper
 //
 //  Created by Jamieson Abbott on 2/8/14.
 //
