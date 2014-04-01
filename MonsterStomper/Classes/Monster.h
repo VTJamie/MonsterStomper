@@ -6,12 +6,14 @@
 //
 //
 
-#define EVENT_MONSTER_SQUASHED @"monsterSquashed"
-#define EVENT_MONSTER_MADE_IT @"monsterGotToEnd"
+#import "CollisionDelegate.h"
 
 @interface Monster : SPSprite
 
 @property (nonatomic, retain) NSString* name;
+@property (nonatomic, assign) b2Body *body;
+
+@property (nonatomic, assign) BOOL jetpackon;
 
 - (void) setup;
 

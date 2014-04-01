@@ -24,8 +24,9 @@ void onUncaughtException(NSException *exception)
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSSetUncaughtExceptionHandler(&onUncaughtException);
-    
+
     CGRect screenBounds = [UIScreen mainScreen].bounds;
+    NSLog(@"%f, %f", screenBounds.size.width, screenBounds.size.height);
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     
     self.viewController = [[SPViewController alloc] init];
@@ -46,13 +47,13 @@ void onUncaughtException(NSException *exception)
 
 - (void)applicationDidBecomeActive:(UIApplication *)app
 {
-    Chartboost *cb = [Chartboost sharedChartboost];
-    cb.appId = @"530e33ab2d42da49014f22df";
-    cb.appSignature = @"913dccc4c77b5c5237d57c87abbbfb2180f22170";
+  //  Chartboost *cb = [Chartboost sharedChartboost];
+  //  cb.appId = @"530e33ab2d42da49014f22df";
+  //  cb.appSignature = @"913dccc4c77b5c5237d57c87abbbfb2180f22170";
     // Begin a user session
-    [cb startSession];
+  //  [cb startSession];
     // Show an interstitial
-    [cb showInterstitial];
+//    [cb showInterstitial];
 }
 
 @end

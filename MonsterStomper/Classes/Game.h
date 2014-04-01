@@ -9,11 +9,13 @@
 #import "StartMenu.h"
 #import "GameOver.h"
 #import <GameKit/GameKit.h>
+
+#define PTM_RATIO 32.0
+
 @interface Game : SPSprite <GKGameCenterControllerDelegate>
 
 + (Game*) instance;
 @property (nonatomic, retain) SPJuggler* gameJuggler;
-@property (nonatomic, retain) SPJuggler* menuJuggler;
 
 @property (nonatomic, retain) Playable* playarea;
 @property (nonatomic, retain) StartMenu* startmenu;
@@ -23,10 +25,6 @@
 - (void) startGame;
 - (void) showStartMenu;
 - (void) showGameOver: (int) score;
-
-- (int) getHighScore;
-- (void) saveHighScore: (int) score;
-
 @end
 
 

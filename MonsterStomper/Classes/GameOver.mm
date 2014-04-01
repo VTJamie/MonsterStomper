@@ -16,12 +16,7 @@
     self = [super init];
     if (self)
     {
-        self.score = score;
-        int highscore = [[Game instance] getHighScore];
-        if (score > highscore)
-        {
-            [[Game instance] saveHighScore:score];
-        }
+        self.score = score;     
     }
     return self;
 }

@@ -16,7 +16,7 @@
     self = [super init];
     if (self)
     {
-
+        
     }
     return self;
 }
@@ -24,32 +24,80 @@
 - (void) setup
 {
     [self loadPlayer];
+    [self setupPhysics];
+    
+    [[Game instance].playarea addEventListener:@selector(handleObjectPhysics) atObject:self forType:EVENT_PHYSICS_READY_FOR_CHANGES];
+    [[Game instance].playarea addEventListener:@selector(physicsUpdated) atObject:self forType:EVENT_PHYSICS_UPDATE];
+    
+    [[Game instance].playarea addEventListener:@selector(touch:) atObject:self forType:EVENT_TOUCH_LEFT_START];
+    [[Game instance].playarea addEventListener:@selector(touch:) atObject:self forType:EVENT_TOUCH_LEFT_STOP];
+    [[Game instance].playarea addEventListener:@selector(touch:) atObject:self forType:EVENT_TOUCH_RIGHT_START];
+    [[Game instance].playarea addEventListener:@selector(touch:) atObject:self forType:EVENT_TOUCH_RIGHT_STOP];
 }
-//- (void) tap: (SPTouchEvent*) event
-//{
-//    SPTouch* touch = [[event touchesWithTarget:self andPhase:SPTouchPhaseEnded] anyObject];
-//    if (touch)
-//    {
-//        SPEvent* event = [[SPEvent alloc] initWithType:EVENT_MONSTER_SQUASHED];
-//        [self dispatchEvent:event];
-//        [self removeEventListener:@selector(tap:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
-//        SPMovieClip* bloodsplatter = [[SPMovieClip alloc] initWithFrames:[Media atlasTexturesWithPrefix:@"blood_"] fps:7];
-//        [self removeAllChildren];
-//        [[Game instance].gameJuggler removeObjectsWithTarget:self];
-//        bloodsplatter.x = -16;
-//        [self addChild:bloodsplatter];
-//        [bloodsplatter addEventListener:@selector(bloodFinished:) atObject:self forType:SP_EVENT_TYPE_COMPLETED];
-//        [[Game instance].gameJuggler addObject:bloodsplatter];
-//    }
-//}
 
-- (void) bloodFinished: (SPEvent*) completedblood
+- (void) handleObjectPhysics
 {
-    [self removeFromParent];
+    
+}
+
+- (void) physicsUpdated
+{
+    self.x = self.body->GetPosition().x * PTM_RATIO;
+    self.y = Sparrow.stage.height - self.body->GetPosition().y * PTM_RATIO;
+    
+    self.rotation = -1 * self.body->GetAngle();
+    
+    if (self.jetpackon)
+    {
+        self.body->ApplyForce(b2Vec2(0, 30), self.body->GetPosition(), YES);
+    }
+}
+
+- (void) touch: (SPEvent*) event
+{
+    if ([event.type compare:EVENT_TOUCH_LEFT_START] == 0)
+    {
+        self.jetpackon = YES;
+    }
+    else if ([event.type compare:EVENT_TOUCH_LEFT_STOP] == 0)
+    {
+        self.jetpackon = NO;
+        
+    }
+    else if ([event.type compare:EVENT_TOUCH_RIGHT_START] == 0)
+    {
+        
+    }
+    else if ([event.type compare:EVENT_TOUCH_RIGHT_STOP] == 0)
+    {
+        
+    }
+}
+
+- (void) setupPhysics
+{
+    self.pivotX = 32/2.0f;
+    self.pivotY = 48/2.0f;
+    b2BodyDef ballBodyDef;
+    ballBodyDef.type = b2_dynamicBody;
+    ballBodyDef.position.Set(self.x/PTM_RATIO, (Sparrow.stage.height - self.y)/PTM_RATIO);
+    ballBodyDef.userData = (__bridge void*) self;
+    self.body = [Game instance].playarea.world->CreateBody(&ballBodyDef);
+    
+    b2PolygonShape polyshape;
+    polyshape.SetAsBox(32.0f/PTM_RATIO/2.0f, 48.0f/PTM_RATIO/2.0f);
+    
+    b2FixtureDef ballShapeDef;
+    ballShapeDef.shape = &polyshape;
+    ballShapeDef.density = 1.0f;
+    ballShapeDef.friction = 0.0f;
+    ballShapeDef.restitution = 0.0f;
+    self.body->CreateFixture(&ballShapeDef);
 }
 
 - (void) loadPlayer
 {
+    
     NSMutableArray* texturearray = [[NSMutableArray alloc] init];
     
     for (int i = 9; i <= 12; i++)
@@ -62,7 +110,8 @@
     movieclip.loop = YES;
     [movieclip play];
     self.x = 64;
-    self.y = Sparrow.stage.height - 100.0;
+    self.y = Sparrow.stage.height - 200.0;
+    
 }
 
 @end
