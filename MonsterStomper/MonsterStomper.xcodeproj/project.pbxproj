@@ -15,9 +15,7 @@
 		B914981B18BA82A800E2CBB5 /* Playable.mm in Sources */ = {isa = PBXBuildFile; fileRef = B914981A18BA82A800E2CBB5 /* Playable.mm */; };
 		B91A603A18A1F7DD00BDD6C3 /* StartMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B91A603918A1F7DD00BDD6C3 /* StartMenu.mm */; };
 		B91AAE5B18C832030051B45C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B91AAE5A18C832030051B45C /* Images.xcassets */; };
-		B91AAE5F18C835D40051B45C /* BuildingBlock.mm in Sources */ = {isa = PBXBuildFile; fileRef = B91AAE5E18C835D40051B45C /* BuildingBlock.mm */; };
-		B91AE64F18BC300F003C5897 /* Monster.mm in Sources */ = {isa = PBXBuildFile; fileRef = B91AE64E18BC300F003C5897 /* Monster.mm */; };
-		B91AE65218BC3178003C5897 /* Death.mm in Sources */ = {isa = PBXBuildFile; fileRef = B91AE65118BC3178003C5897 /* Death.mm */; };
+		B91AE64F18BC300F003C5897 /* Player.mm in Sources */ = {isa = PBXBuildFile; fileRef = B91AE64E18BC300F003C5897 /* Player.mm */; };
 		B91AE66318BD5F12003C5897 /* ARCADEPI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B91AE66218BD5F12003C5897 /* ARCADEPI.TTF */; };
 		B91AE66518BD7967003C5897 /* scores.plist in Resources */ = {isa = PBXBuildFile; fileRef = B91AE66418BD7967003C5897 /* scores.plist */; };
 		B92BAD5B18CE9C3F00CC4500 /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B92BAD5A18CE9C3F00CC4500 /* ContactListener.mm */; };
@@ -26,6 +24,7 @@
 		B958F9A018BEACB400D33D87 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9A2B84D18BDA17000740A06 /* GameKit.framework */; };
 		B95AA98C18BABEA2008A8B3B /* GameOver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B95AA98B18BABEA2008A8B3B /* GameOver.mm */; };
 		B99817DE18A0727A003A5C33 /* libSparrow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B99817DB18A0726D003A5C33 /* libSparrow.a */; };
+		B99B143D19033AF800F6879B /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = B99B143C19033AF800F6879B /* Platform.mm */; };
 		B9A2B85118BDACD000740A06 /* GCHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = B9A2B85018BDACD000740A06 /* GCHelper.mm */; };
 		B9AD1DEA18C6D38A007208A7 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9AD1D8818C6D38A007208A7 /* b2BroadPhase.cpp */; };
 		B9AD1DEB18C6D38A007208A7 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9AD1D8A18C6D38A007208A7 /* b2CollideCircle.cpp */; };
@@ -124,12 +123,8 @@
 		B91A603818A1F7DD00BDD6C3 /* StartMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartMenu.h; sourceTree = "<group>"; };
 		B91A603918A1F7DD00BDD6C3 /* StartMenu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StartMenu.mm; sourceTree = "<group>"; };
 		B91AAE5A18C832030051B45C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MonsterStomper/Images.xcassets; sourceTree = "<group>"; };
-		B91AAE5D18C835D40051B45C /* BuildingBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingBlock.h; sourceTree = "<group>"; };
-		B91AAE5E18C835D40051B45C /* BuildingBlock.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BuildingBlock.mm; sourceTree = "<group>"; };
-		B91AE64D18BC300F003C5897 /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
-		B91AE64E18BC300F003C5897 /* Monster.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Monster.mm; sourceTree = "<group>"; };
-		B91AE65018BC3178003C5897 /* Death.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Death.h; sourceTree = "<group>"; };
-		B91AE65118BC3178003C5897 /* Death.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Death.mm; sourceTree = "<group>"; };
+		B91AE64D18BC300F003C5897 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		B91AE64E18BC300F003C5897 /* Player.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Player.mm; sourceTree = "<group>"; };
 		B91AE66218BD5F12003C5897 /* ARCADEPI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADEPI.TTF; sourceTree = "<group>"; };
 		B91AE66418BD7967003C5897 /* scores.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = scores.plist; path = Classes/scores.plist; sourceTree = "<group>"; };
 		B92BAD5918CE9C3F00CC4500 /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
@@ -140,6 +135,8 @@
 		B95AA98A18BABEA2008A8B3B /* GameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOver.h; sourceTree = "<group>"; };
 		B95AA98B18BABEA2008A8B3B /* GameOver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOver.mm; sourceTree = "<group>"; };
 		B99817D518A0726C003A5C33 /* Sparrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparrow.xcodeproj; path = Sparrow/Sparrow.xcodeproj; sourceTree = "<group>"; };
+		B99B143B19033AF800F6879B /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		B99B143C19033AF800F6879B /* Platform.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Platform.mm; sourceTree = "<group>"; };
 		B9A2B84D18BDA17000740A06 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B9A2B84F18BDACD000740A06 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
 		B9A2B85018BDACD000740A06 /* GCHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GCHelper.mm; sourceTree = "<group>"; };
@@ -394,21 +391,19 @@
 		B91AAE5C18C835650051B45C /* Blocks */ = {
 			isa = PBXGroup;
 			children = (
-				B91AAE5D18C835D40051B45C /* BuildingBlock.h */,
-				B91AAE5E18C835D40051B45C /* BuildingBlock.mm */,
+				B99B143B19033AF800F6879B /* Platform.h */,
+				B99B143C19033AF800F6879B /* Platform.mm */,
 			);
 			name = Blocks;
 			sourceTree = "<group>";
 		};
-		B91AE64C18BC2F2F003C5897 /* Monsters */ = {
+		B91AE64C18BC2F2F003C5897 /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				B91AE64D18BC300F003C5897 /* Monster.h */,
-				B91AE64E18BC300F003C5897 /* Monster.mm */,
-				B91AE65018BC3178003C5897 /* Death.h */,
-				B91AE65118BC3178003C5897 /* Death.mm */,
+				B91AE64D18BC300F003C5897 /* Player.h */,
+				B91AE64E18BC300F003C5897 /* Player.mm */,
 			);
-			name = Monsters;
+			name = Player;
 			sourceTree = "<group>";
 		};
 		B92BAD5618CE9BD300CC4500 /* Physics Helpers */ = {
@@ -608,7 +603,7 @@
 			children = (
 				B92BAD5F18CEC14F00CC4500 /* Ammunition */,
 				B91AAE5C18C835650051B45C /* Blocks */,
-				B91AE64C18BC2F2F003C5897 /* Monsters */,
+				B91AE64C18BC2F2F003C5897 /* Player */,
 				B914981718BA81D600E2CBB5 /* Playable */,
 				DE4A3DE310FFB2AF00FDA492 /* Game.h */,
 				DE4A3DE410FFB2AF00FDA492 /* Game.mm */,
@@ -759,7 +754,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9AD1E1518C6D38A007208A7 /* b2WeldJoint.cpp in Sources */,
-				B91AE64F18BC300F003C5897 /* Monster.mm in Sources */,
+				B91AE64F18BC300F003C5897 /* Player.mm in Sources */,
 				B9AD1DF718C6D38A007208A7 /* b2Draw.cpp in Sources */,
 				B9AD1DFC18C6D38A007208A7 /* b2Body.cpp in Sources */,
 				B9AD1E0318C6D38A007208A7 /* b2ChainAndPolygonContact.cpp in Sources */,
@@ -784,7 +779,6 @@
 				B9AD1DF818C6D38A007208A7 /* b2Math.cpp in Sources */,
 				B9AD1DF618C6D38A007208A7 /* b2BlockAllocator.cpp in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
-				B91AE65218BC3178003C5897 /* Death.mm in Sources */,
 				B9AD1E0918C6D38A007208A7 /* b2PolygonAndCircleContact.cpp in Sources */,
 				B9AD1DEB18C6D38A007208A7 /* b2CollideCircle.cpp in Sources */,
 				B9AD1E0418C6D38A007208A7 /* b2CircleContact.cpp in Sources */,
@@ -802,7 +796,6 @@
 				B9AD1DEE18C6D38A007208A7 /* b2Collision.cpp in Sources */,
 				B9AD1DF318C6D38A007208A7 /* b2CircleShape.cpp in Sources */,
 				B9AD1E0018C6D38A007208A7 /* b2World.cpp in Sources */,
-				B91AAE5F18C835D40051B45C /* BuildingBlock.mm in Sources */,
 				B9AD1DFE18C6D38A007208A7 /* b2Fixture.cpp in Sources */,
 				B9AD1E1718C6D38A007208A7 /* b2Rope.cpp in Sources */,
 				B9AD1E1618C6D38A007208A7 /* b2WheelJoint.cpp in Sources */,
@@ -812,6 +805,7 @@
 				B9AD1DF918C6D38A007208A7 /* b2Settings.cpp in Sources */,
 				B9AD1E1318C6D38A007208A7 /* b2RevoluteJoint.cpp in Sources */,
 				B9AD1E0E18C6D38A007208A7 /* b2Joint.cpp in Sources */,
+				B99B143D19033AF800F6879B /* Platform.mm in Sources */,
 				B9AD1DFD18C6D38A007208A7 /* b2ContactManager.cpp in Sources */,
 				B9AD1DEC18C6D38A007208A7 /* b2CollideEdge.cpp in Sources */,
 				B9AD1E1418C6D38A007208A7 /* b2RopeJoint.cpp in Sources */,

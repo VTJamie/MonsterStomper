@@ -8,13 +8,17 @@
 
 #import "CollisionDelegate.h"
 
-@interface Monster : SPSprite
+@interface Player : SPSprite
 
-@property (nonatomic, retain) NSString* name;
 @property (nonatomic, assign) b2Body *body;
 
 @property (nonatomic, assign) BOOL jetpackon;
+@property (nonatomic, assign) BOOL firing;
+
+@property (nonatomic, assign) float startx;
 
 - (void) setup;
+
+- (float) offset;
 
 @end

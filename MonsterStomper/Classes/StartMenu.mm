@@ -9,7 +9,7 @@
 #import "StartMenu.h"
 #import "Game.h"
 
-#import "Death.h"
+#import "Player.h"
 
 @implementation StartMenu
 

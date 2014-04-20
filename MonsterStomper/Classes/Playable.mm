@@ -7,8 +7,7 @@
 //
 
 #import "Playable.h"
-#import "Death.h"
-#import "BuildingBlock.h"
+#import "Player.h"
 #import "ContactListener.h"
 #import "Bomb.h"
 
@@ -45,22 +44,12 @@
     b2Vec2 gravity = b2Vec2(0.0f, -8.0f);
     self.world = new b2World(gravity);
     
-    //in FooTest constructor
     self.world->SetContactListener(new ContactListener());
     self.world->SetContinuousPhysics(YES);
     
-    self.followobject = [[Death alloc] init];
-    [self addChild:self.followobject];
+    self.player = [[Player alloc] init];
+    [self addChild:self.player];
     // Create a world
-    
-    
-    double right = Sparrow.stage.width/PTM_RATIO;
-    double top = Sparrow.stage.height/PTM_RATIO - 1;
-    //b2Vec2(0,0), b2Vec2(Sparrow.stage.width/PTM_RATIO, 0)
-    [self createWall:b2Vec2(0,0) end:b2Vec2(right, 0)];
-    [self createWall:b2Vec2(0,0) end:b2Vec2(0, top)];
-    [self createWall:b2Vec2(right, 0) end:b2Vec2(right, top)];
-    [self createWall:b2Vec2(right, top) end:b2Vec2(0, top)];
     
     
     [self addEventListener:@selector(onEnterFrame:) atObject:self forType:SP_EVENT_TYPE_ENTER_FRAME];
@@ -73,50 +62,9 @@
     self.world->Step(event.passedTime, 10, 10);
     [self dispatchEvent:[[SPEvent alloc] initWithType:EVENT_PHYSICS_UPDATE bubbles:YES]];
     
-//    for(b2Body *b = self.world->GetBodyList(); b; b=b->GetNext()) {
-//        if (b->GetUserData() != NULL) {
-//            NSObject *obj = (__bridge NSObject *)b->GetUserData();
-//            if ([[obj class] isSubclassOfClass:[NSString class]])
-//            {
-//                if (ABS(b->GetLinearVelocity().x) + ABS(b->GetLinearVelocity().y) <= 2.0f)
-//                {
-//                    if ([[obj class] isSubclassOfClass:[SPQuad class]])
-//                    {
-//                        [(SPQuad*)obj removeFromParent];
-//                    }
-//                    self.world->DestroyBody(b);
-//                }
-//            }
-//            else if ([[obj class] isSubclassOfClass:[SPSprite class]])
-//            {
-//                
-//                SPSprite* sprite = (SPSprite*)obj;
-//                sprite.x = b->GetPosition().x * PTM_RATIO;
-//                sprite.y = Sparrow.stage.height - b->GetPosition().y * PTM_RATIO;
-//                
-//                sprite.rotation = -1 * b->GetAngle();
-//            }
-//        }
-//    }
+   // NSLog(@"%f", [self.player offset]);
 }
 
-- (void) createWall: (b2Vec2) start end: (b2Vec2) end
-{
-    b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0,1);
-    
-    b2EdgeShape groundEdge;
-	b2FixtureDef boxShapeDef;
-    
-	b2Body *groundBody = self.world->CreateBody(&groundBodyDef);
-    
-	boxShapeDef.shape = &groundEdge;
-    
-	//wall definitions
-    //	groundEdge.Set(b2Vec2(0,0), b2Vec2(Sparrow.stage.width/PTM_RATIO, 0));
-    groundEdge.Set(start, end);
-	groundBody->CreateFixture(&boxShapeDef);
-}
 
 - (void) touch: (SPTouchEvent*) event
 {

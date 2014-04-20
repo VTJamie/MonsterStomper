@@ -7,6 +7,7 @@
 //
 
 #import "SPSprite.h"
+#import "Player.h"
 
 #define EVENT_PHYSICS_UPDATE @"PHYSICS_UPDATE"
 #define EVENT_PHYSICS_READY_FOR_CHANGES @"PHYSICS_READY_FOR_CHANGES"
@@ -19,7 +20,8 @@
 
 @property (nonatomic, assign) b2World *world;
 @property (nonatomic, retain) NSMutableArray* createobjects;
-@property (nonatomic, retain) SPSprite* followobject;
+@property (nonatomic, retain) Player* player;
+@property (nonatomic, assign) float centeroffset;
 
 
 - (void)start;
