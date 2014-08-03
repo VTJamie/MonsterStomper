@@ -1,14 +1,14 @@
 //
-//  Menu.h
+//  Ground.h
 //  MonsterStomper
 //
-//  Created by Jamieson Abbott on 2/4/14.
+//  Created by Jamieson Abbott on 4/22/14.
 //
 //
 
 #import "CollisionDelegate.h"
 
-@interface Platform : SPSprite
+@interface Ground : SPSprite
 
 @property (nonatomic, assign) b2Body *body;
 
@@ -17,7 +17,8 @@
 @property (nonatomic, assign) float initx;
 @property (nonatomic, assign) float inity;
 
-- (id) initWithLoc: (b2Vec2) position;
+
+- (id) initWithLoc: (b2Vec2) position andSize: (b2Vec2) size;
 - (void) setup;
 
 

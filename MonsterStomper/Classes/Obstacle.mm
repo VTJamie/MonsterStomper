@@ -1,23 +1,22 @@
 //
-//  Menu.m
+//  Ground.m
 //  MonsterStomper
 //
-//  Created by Jamieson Abbott on 2/4/14.
+//  Created by Jamieson Abbott on 4/22/14.
 //
 //
 
-#import "Platform.h"
-#import "Game.h"
+#import "Obstacle.h"
 
-@implementation Platform
+@implementation Obstacle
 
-- (id) initWithLoc: (b2Vec2) position
+- (id) initWithLoc: (b2Vec2) position andSize: (b2Vec2) size
 {
     self = [super init];
     if (self)
     {
-        self.initwidth = 30.0f;
-        self.initheight = 30.0f;
+        self.initwidth = size.x;
+        self.initheight = size.y;
         self.initx = position.x;
         self.inity = position.y;
         [self setup];
@@ -31,7 +30,7 @@
     [self setupPhysics];
     
     [[Game instance].playarea addEventListener:@selector(handleObjectPhysics) atObject:self forType:EVENT_PHYSICS_READY_FOR_CHANGES];
-    [[Game instance].playarea addEventListener:@selector(physicsUpdated) atObject:self forType:EVENT_PHYSICS_UPDATE];    
+    [[Game instance].playarea addEventListener:@selector(physicsUpdated) atObject:self forType:EVENT_PHYSICS_UPDATE];
 }
 
 - (void) handleObjectPhysics
@@ -41,12 +40,11 @@
 
 - (void) physicsUpdated
 {
-    self.x = self.body->GetPosition().x * PTM_RATIO + [[Game instance].playarea.player offset];
+    self.x = self.body->GetPosition().x * PTM_RATIO + [[Game instance].playarea.currentlevel.player offset];
     self.y = Sparrow.stage.height - self.body->GetPosition().y * PTM_RATIO;
     
-    self.rotation = -1 * self.body->GetAngle();      
-    
-  
+    self.rotation = -1 * self.body->GetAngle();
+
 }
 
 - (void) setupPhysics
@@ -54,8 +52,8 @@
     self.pivotX = self.initwidth*PTM_RATIO/2.0f;
     self.pivotY = self.initheight*PTM_RATIO/2.0f;
     b2BodyDef ballBodyDef;
-    ballBodyDef.type = b2_dynamicBody;
-
+    ballBodyDef.type = b2_staticBody;
+    
     ballBodyDef.position.Set(self.initx, self.inity);
     ballBodyDef.userData = (__bridge void*) self;
     ballBodyDef.fixedRotation = YES;
@@ -91,6 +89,5 @@
     //    [movieclip play];
     
 }
-
 
 @end

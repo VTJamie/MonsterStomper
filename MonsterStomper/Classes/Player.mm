@@ -52,13 +52,13 @@
         self.body->ApplyForce(b2Vec2(0, 30), self.body->GetPosition(), YES);
     }
     
-    self.body->ApplyForce(b2Vec2(5.0f, 0), self.body->GetPosition(), YES);
+    self.body->ApplyForce(b2Vec2(10.0f, 0), self.body->GetPosition(), YES);
     
     const b2Vec2 velocity = self.body->GetLinearVelocity();
     const float32 speed = velocity.x;
-    if (speed > 5.0f)
+    if (speed > 10.0f)
     {
-        self.body->SetLinearVelocity(b2Vec2(5.0f, velocity.y));
+        self.body->SetLinearVelocity(b2Vec2(10.0f, velocity.y));
     }
 
   //  self.body->SetLinearVelocity(b2Vec2(5.0f, 0.0f));
@@ -91,8 +91,8 @@
     self.pivotY = 2*PTM_RATIO/2.0f;
     b2BodyDef ballBodyDef;
     ballBodyDef.type = b2_dynamicBody;
-    self.startx = self.x/PTM_RATIO;
-    ballBodyDef.position.Set(self.x/PTM_RATIO, (Sparrow.stage.height - self.y)/PTM_RATIO);
+    self.startx = self.x/PTM_RATIO*2.0f;
+    ballBodyDef.position.Set(self.x/PTM_RATIO, (Sparrow.stage.height/2.0f - self.y)/PTM_RATIO);
     ballBodyDef.userData = (__bridge void*) self;
     ballBodyDef.fixedRotation = YES;
     self.body = [Game instance].playarea.world->CreateBody(&ballBodyDef);
@@ -132,7 +132,7 @@
 
 - (float) offset
 {
-    NSLog(@"%f - %f = %f", self.startx, self.body->GetPosition().x, self.startx - self.body->GetPosition().x);
+  //  NSLog(@"%f - %f = %f", self.startx, self.body->GetPosition().x, self.startx - self.body->GetPosition().x);
     return (self.startx - self.body->GetPosition().x)*PTM_RATIO;
 }
 

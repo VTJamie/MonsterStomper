@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Box2D/Box2D.h>
 
 @protocol CollisionDelegate
 

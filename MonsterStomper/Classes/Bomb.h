@@ -6,7 +6,6 @@
 //
 //
 
-#import "SPSprite.h"
 #import "CollisionDelegate.h"
 #import "Box2DCreatorDelegate.h"
 

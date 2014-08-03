@@ -7,9 +7,8 @@
 //
 
 #import "Playable.h"
-#import "Player.h"
 #import "ContactListener.h"
-#import "Bomb.h"
+#import "Level.h"
 
 @implementation Playable
 
@@ -32,14 +31,7 @@
 {
     SPQuad* fullbackground = [[SPQuad alloc] initWithWidth:Sparrow.stage.width height:Sparrow.stage.height color: 0x000000];
     [self addChild:fullbackground];
-    
-    
-    SPQuad* quad = [[SPQuad alloc] initWithWidth:Sparrow.stage.width height:1*PTM_RATIO color:0x00FFFF];
-    quad.x = 0;
-    quad.y = Sparrow.stage.height - PTM_RATIO;
-    
-    
-    [self addChild:quad];
+
     
     b2Vec2 gravity = b2Vec2(0.0f, -8.0f);
     self.world = new b2World(gravity);
@@ -47,10 +39,9 @@
     self.world->SetContactListener(new ContactListener());
     self.world->SetContinuousPhysics(YES);
     
-    self.player = [[Player alloc] init];
-    [self addChild:self.player];
     // Create a world
     
+    [self createObjects];
     
     [self addEventListener:@selector(onEnterFrame:) atObject:self forType:SP_EVENT_TYPE_ENTER_FRAME];
     [self addEventListener:@selector(touch:) atObject:self forType:SP_EVENT_TYPE_TOUCH];
@@ -61,8 +52,6 @@
     [self dispatchEvent:[[SPEvent alloc] initWithType:EVENT_PHYSICS_READY_FOR_CHANGES bubbles:YES]];
     self.world->Step(event.passedTime, 10, 10);
     [self dispatchEvent:[[SPEvent alloc] initWithType:EVENT_PHYSICS_UPDATE bubbles:YES]];
-    
-   // NSLog(@"%f", [self.player offset]);
 }
 
 
@@ -96,5 +85,11 @@
             [self dispatchEvent:[[SPEvent alloc] initWithType:EVENT_TOUCH_RIGHT_STOP bubbles:YES]];
         }
     }
+}
+
+- (void) createObjects
+{
+    self.currentlevel = [[Level alloc] initWithLevel:1];
+    [self addChild: self.currentlevel];
 }
 @end
