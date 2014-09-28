@@ -3,19 +3,18 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 14.11.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPSound.h"
-#import "SPSoundChannel.h"
-#import "SPMacros.h"
-#import "SPEvent.h"
-#import "SPALSound.h"
-#import "SPAVSound.h"
-#import "SPUtils.h"
+#import <Sparrow/SPALSound.h>
+#import <Sparrow/SPAVSound.h>
+#import <Sparrow/SPEvent.h>
+#import <Sparrow/SPSound.h>
+#import <Sparrow/SPSoundChannel.h>
+#import <Sparrow/SPUtils.h>
 
 #import <AudioToolbox/AudioToolbox.h> 
 
@@ -24,11 +23,13 @@
     NSMutableSet *_playingChannels;
 }
 
-- (id)init
+#pragma mark Initialization
+
+- (instancetype)init
 {
     if ([self isMemberOfClass:[SPSound class]])
     {
-        [NSException raise:SP_EXC_ABSTRACT_CLASS 
+        [NSException raise:SPExceptionAbstractClass
                     format:@"Attempting to initialize abstract class SPSound."];        
         return nil;
     }
@@ -36,12 +37,13 @@
     return [super init];
 }
 
-- (id)initWithContentsOfFile:(NSString *)path
+- (instancetype)initWithContentsOfFile:(NSString *)path
 {
-    // SPSound is a class factory! We'll return a subclass, not self.
+    // SPSound is a class factory! We'll return a subclass, thus we don't need 'self' anymore.
+    [self release];
     
     NSString *fullPath = [SPUtils absolutePathToFile:path withScaleFactor:1.0f];
-    if (!fullPath) [NSException raise:SP_EXC_FILE_NOT_FOUND format:@"file %@ not found", path];
+    if (!fullPath) [NSException raise:SPExceptionFileNotFound format:@"file %@ not found", path];
     
     NSString *error = nil;
     
@@ -56,7 +58,7 @@
     {        
         OSStatus result = noErr;        
         
-        result = AudioFileOpenURL((__bridge CFURLRef) [NSURL fileURLWithPath:fullPath], 
+        result = AudioFileOpenURL((CFURLRef)[NSURL fileURLWithPath:fullPath],
                                   kAudioFileReadPermission, 0, &fileID);
         if (result != noErr)
         {
@@ -142,7 +144,7 @@
     if (fileID) AudioFileClose(fileID);
     
     if (!error)
-    {    
+    {   
         self = [[SPALSound alloc] initWithData:soundBuffer size:soundSize channels:soundChannels
                                      frequency:soundFrequency duration:soundDuration];            
     }
@@ -156,16 +158,41 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_playingChannels release];
+    [super dealloc];
+}
+
++ (instancetype)soundWithContentsOfFile:(NSString *)path
+{
+    return [[[SPSound alloc] initWithContentsOfFile:path] autorelease];
+}
+
+#pragma mark Methods
+
 - (void)play
 {
     SPSoundChannel *channel = [self createChannel];
-    [channel addEventListener:@selector(onSoundCompleted:) atObject:self
-                      forType:SP_EVENT_TYPE_COMPLETED];
-    [channel play];
-    
-    if (!_playingChannels) _playingChannels = [[NSMutableSet alloc] init];    
-    [_playingChannels addObject:channel];
+
+    if (channel)
+    {
+        [channel addEventListener:@selector(onSoundCompleted:) atObject:self
+                          forType:SPEventTypeCompleted];
+        [channel play];
+
+        if (!_playingChannels) _playingChannels = [[NSMutableSet alloc] init];
+        [_playingChannels addObject:channel];
+    }
 }
+
+- (SPSoundChannel *)createChannel
+{
+    [NSException raise:SPExceptionAbstractMethod format:@"Override 'createChannel' in subclasses."];
+    return nil;
+}
+
+#pragma mark Events
 
 - (void)onSoundCompleted:(SPEvent *)event
 {
@@ -174,22 +201,12 @@
     [_playingChannels removeObject:channel];
 }
 
-- (SPSoundChannel *)createChannel
-{
-    [NSException raise:SP_EXC_ABSTRACT_METHOD format:@"Override 'createChannel' in subclasses."];
-    return nil;
-}
+#pragma mark Properties
 
 - (double)duration
 {
-    [NSException raise:SP_EXC_ABSTRACT_METHOD format:@"Override 'duration' in subclasses."];
+    [NSException raise:SPExceptionAbstractMethod format:@"Override 'duration' in subclasses."];
     return 0.0;
 }
-
-+ (SPSound *)soundWithContentsOfFile:(NSString *)path
-{
-    return [[SPSound alloc] initWithContentsOfFile:path];
-}
-
 
 @end

@@ -21,13 +21,13 @@
 		B91AE66518BD7967003C5897 /* scores.plist in Resources */ = {isa = PBXBuildFile; fileRef = B91AE66418BD7967003C5897 /* scores.plist */; };
 		B92BAD5B18CE9C3F00CC4500 /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B92BAD5A18CE9C3F00CC4500 /* ContactListener.mm */; };
 		B92BAD6218CEC16300CC4500 /* Bomb.mm in Sources */ = {isa = PBXBuildFile; fileRef = B92BAD6118CEC16300CC4500 /* Bomb.mm */; };
-		B954BF11198E9F9300F2E3F1 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B954BF10198E9F9300F2E3F1 /* Level_1.json */; };
 		B954BF17198EAD0F00F2E3F1 /* LevelModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B954BF16198EAD0F00F2E3F1 /* LevelModel.mm */; };
 		B954BF1A198EAE0900F2E3F1 /* ObstacleModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B954BF19198EAE0900F2E3F1 /* ObstacleModel.mm */; };
 		B958F99F18BEAC9B00D33D87 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9A2B85218BEA46500740A06 /* libChartboost.a */; };
 		B958F9A018BEACB400D33D87 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9A2B84D18BDA17000740A06 /* GameKit.framework */; };
 		B95AA98C18BABEA2008A8B3B /* GameOver.mm in Sources */ = {isa = PBXBuildFile; fileRef = B95AA98B18BABEA2008A8B3B /* GameOver.mm */; };
 		B99817DE18A0727A003A5C33 /* libSparrow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B99817DB18A0726D003A5C33 /* libSparrow.a */; };
+		B99E646119D8B79400875B4C /* Levels.json in Resources */ = {isa = PBXBuildFile; fileRef = B99E646019D8B79400875B4C /* Levels.json */; };
 		B9A2B85118BDACD000740A06 /* GCHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = B9A2B85018BDACD000740A06 /* GCHelper.mm */; };
 		B9AD1DEA18C6D38A007208A7 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9AD1D8818C6D38A007208A7 /* b2BroadPhase.cpp */; };
 		B9AD1DEB18C6D38A007208A7 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9AD1D8A18C6D38A007208A7 /* b2CollideCircle.cpp */; };
@@ -139,7 +139,6 @@
 		B92BAD5C18CEA9D700CC4500 /* CollisionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionDelegate.h; sourceTree = "<group>"; };
 		B92BAD6018CEC16300CC4500 /* Bomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bomb.h; sourceTree = "<group>"; };
 		B92BAD6118CEC16300CC4500 /* Bomb.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Bomb.mm; sourceTree = "<group>"; };
-		B954BF10198E9F9300F2E3F1 /* Level_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_1.json; sourceTree = "<group>"; };
 		B954BF15198EAD0F00F2E3F1 /* LevelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelModel.h; sourceTree = "<group>"; };
 		B954BF16198EAD0F00F2E3F1 /* LevelModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelModel.mm; sourceTree = "<group>"; };
 		B954BF18198EAE0900F2E3F1 /* ObstacleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObstacleModel.h; sourceTree = "<group>"; };
@@ -147,6 +146,7 @@
 		B95AA98A18BABEA2008A8B3B /* GameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOver.h; sourceTree = "<group>"; };
 		B95AA98B18BABEA2008A8B3B /* GameOver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOver.mm; sourceTree = "<group>"; };
 		B99817D518A0726C003A5C33 /* Sparrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparrow.xcodeproj; path = Sparrow/Sparrow.xcodeproj; sourceTree = "<group>"; };
+		B99E646019D8B79400875B4C /* Levels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Levels.json; sourceTree = "<group>"; };
 		B9A2B84D18BDA17000740A06 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B9A2B84F18BDACD000740A06 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
 		B9A2B85018BDACD000740A06 /* GCHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GCHelper.mm; sourceTree = "<group>"; };
@@ -446,7 +446,7 @@
 		B954BF0D198E9EA900F2E3F1 /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				B954BF10198E9F9300F2E3F1 /* Level_1.json */,
+				B99E646019D8B79400875B4C /* Levels.json */,
 				B954BF15198EAD0F00F2E3F1 /* LevelModel.h */,
 				B954BF16198EAD0F00F2E3F1 /* LevelModel.mm */,
 				B954BF18198EAE0900F2E3F1 /* ObstacleModel.h */,
@@ -779,9 +779,9 @@
 				B91AE66318BD5F12003C5897 /* ARCADEPI.TTF in Resources */,
 				B91AAE5B18C832030051B45C /* Images.xcassets in Resources */,
 				DE4F80E814E1541400655D44 /* sound.caf in Resources */,
-				B954BF11198E9F9300F2E3F1 /* Level_1.json in Resources */,
 				DE4F80E914E1541400655D44 /* atlas.png in Resources */,
 				B91AE66518BD7967003C5897 /* scores.plist in Resources */,
+				B99E646119D8B79400875B4C /* Levels.json in Resources */,
 				DE4F80EA14E1541400655D44 /* atlas.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

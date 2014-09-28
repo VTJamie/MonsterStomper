@@ -3,17 +3,17 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 15.03.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPDisplayObject.h"
+#import <Sparrow/SPDisplayObject.h>
 
-@class SPVertexData;
 @class SPTexture;
+@class SPVertexData;
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -67,13 +67,22 @@
 
 /// Initializes a quad with a certain size and color. The `pma` parameter indicates how the colors
 /// of the object are stored. _Designated Initializer_.
-- (id)initWithWidth:(float)width height:(float)height color:(uint)color premultipliedAlpha:(BOOL)pma;
+- (instancetype)initWithWidth:(float)width height:(float)height color:(uint)color premultipliedAlpha:(BOOL)pma;
 
 /// Initializes a quad with a certain size and color, using premultiplied alpha values.
-- (id)initWithWidth:(float)width height:(float)height color:(uint)color;
+- (instancetype)initWithWidth:(float)width height:(float)height color:(uint)color;
 
 /// Initializes a white quad with a certain size.
-- (id)initWithWidth:(float)width height:(float)height; 
+- (instancetype)initWithWidth:(float)width height:(float)height;
+
+/// Factory method.
++ (instancetype)quadWithWidth:(float)width height:(float)height;
+
+/// Factory method.
++ (instancetype)quadWithWidth:(float)width height:(float)height color:(uint)color;
+
+/// Factory method. Creates a 32x32 quad.
++ (instancetype)quad;
 
 /// -------------
 /// @name Methods
@@ -96,15 +105,6 @@
 
 /// Call this method after manually changing the contents of '_vertexData'.
 - (void)vertexDataDidChange;
-
-/// Factory method.
-+ (id)quadWithWidth:(float)width height:(float)height;
-
-/// Factory method.
-+ (id)quadWithWidth:(float)width height:(float)height color:(uint)color;
-
-/// Factory method. Creates a 32x32 quad.
-+ (id)quad;
 
 /// ----------------
 /// @name Properties

@@ -3,15 +3,15 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 28.05.10.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPALSound.h"
-#import "SPALSoundChannel.h"
-#import "SPAudioEngine.h"
+#import <Sparrow/SPALSound.h>
+#import <Sparrow/SPALSoundChannel.h>
+#import <Sparrow/SPAudioEngine.h>
 
 #import <OpenAL/al.h>
 #import <OpenAL/alc.h>
@@ -23,14 +23,16 @@
 }
 
 @synthesize duration = _duration;
-@synthesize bufferID = _bufferID;
 
-- (id)init
+#pragma mark Initialization
+
+- (instancetype)init
 {
+    [self release];
     return nil;
 }
 
-- (id)initWithData:(const void *)data size:(int)size channels:(int)channels frequency:(int)frequency
+- (instancetype)initWithData:(const void *)data size:(int)size channels:(int)channels frequency:(int)frequency
           duration:(double)duration
 {
     if ((self = [super init]))
@@ -68,15 +70,19 @@
     return self;
 }
 
-- (SPSoundChannel *)createChannel
-{
-    return [[SPALSoundChannel alloc] initWithSound:self];
-}
-
-- (void) dealloc
+- (void)dealloc
 {
     alDeleteBuffers(1, &_bufferID);
     _bufferID = 0;
+
+    [super dealloc];
+}
+
+#pragma mark SPSound
+
+- (SPSoundChannel *)createChannel
+{
+    return [[[SPALSoundChannel alloc] initWithSound:self] autorelease];
 }
 
 @end

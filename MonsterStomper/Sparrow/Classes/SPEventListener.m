@@ -3,16 +3,17 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 28.02.13.
-//  Copyright 2013 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPEventListener.h"
-#import "SPNSExtensions.h"
+#import <Sparrow/SPEventListener.h>
+#import <Sparrow/SPMacros.h>
+#import <Sparrow/SPNSExtensions.h>
 
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+#import <objc/message.h>
 
 @implementation SPEventListener
 {
@@ -21,14 +22,13 @@
     SEL _selector;
 }
 
-@synthesize target = _target;
-@synthesize selector = _selector;
+#pragma mark Initialization
 
-- (id)initWithTarget:(id)target selector:(SEL)selector block:(SPEventBlock)block
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector block:(SPEventBlock)block
 {
     if ((self = [super init]))
     {
-        _block = block;
+        _block = [block copy];
         _target = target;
         _selector = selector;
     }
@@ -36,20 +36,28 @@
     return self;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)selector
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector
 {
-    id __weak weakTarget = target;
+    __block id weakTarget = target;
     
     return [self initWithTarget:target selector:selector block:^(SPEvent *event)
             {
-                [weakTarget performSelector:selector withObject:event];
+                objc_msgSend(weakTarget, selector, event);
             }];
 }
 
-- (id)initWithBlock:(SPEventBlock)block
+- (instancetype)initWithBlock:(SPEventBlock)block
 {
     return [self initWithTarget:nil selector:nil block:block];
 }
+
+- (void)dealloc
+{
+    [_block release];
+    [super dealloc];
+}
+
+#pragma mark Methods
 
 - (void)invokeWithEvent:(SPEvent *)event
 {

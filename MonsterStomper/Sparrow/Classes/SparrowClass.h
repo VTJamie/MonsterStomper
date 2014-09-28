@@ -3,15 +3,15 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 27.01.13.
-//  Copyright 2013 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPViewController.h"
-#import "SPJuggler.h"
+#import <Sparrow/SPViewController.h>
+#import <Sparrow/SPJuggler.h>
 
 /** ------------------------------------------------------------------------------------------------
  
@@ -25,9 +25,8 @@
 /// The currently active SPViewController.
 + (SPViewController *)currentController;
 
-/// Set the currently active SPViewController. Set to 'nil' when you want to release
-/// the current controller (e.g. to shut down Sparrow completely).
-+ (void)setCurrentController:(SPViewController *)controller;
+/// The currently active OpenGL context.
++ (SPContext *)context;
 
 /// A juggler that is advanced once per frame by the current view controller.
 + (SPJuggler *)juggler;

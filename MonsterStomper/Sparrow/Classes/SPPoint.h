@@ -3,38 +3,43 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 23.03.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import <GLKit/GLKit.h>
-#import "SPPoolObject.h"
+#import <GLKit/GLKMath.h>
+#import <Sparrow/SPPoolObject.h>
 
 /** The SPPoint class describes a two dimensional point or vector. */
 
 @interface SPPoint : SPPoolObject <NSCopying>
+{
+  @protected
+    float _x;
+    float _y;
+}
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a point with its x and y components. _Designated Initializer_.
-- (id)initWithX:(float)x y:(float)y;
+- (instancetype)initWithX:(float)x y:(float)y;
 
 /// Initializes a point with the distance and angle in respect to the origin.
-- (id)initWithPolarLength:(float)length angle:(float)angle;
+- (instancetype)initWithPolarLength:(float)length angle:(float)angle;
 
 /// Factory method.
-+ (id)pointWithPolarLength:(float)length angle:(float)angle;
++ (instancetype)pointWithPolarLength:(float)length angle:(float)angle;
 
 /// Factory method.
-+ (id)pointWithX:(float)x y:(float)y;
++ (instancetype)pointWithX:(float)x y:(float)y;
 
 /// Factory method.
-+ (id)point;
++ (instancetype)point;
 
 /// -------------
 /// @name Methods
@@ -58,11 +63,17 @@
 /// Returns a point that is the inverse (negation) of this point.
 - (SPPoint *)invert;
 
+/// Returns a perpendicular vector.
+- (SPPoint *)perpendicular;
+
+/// Returns a point truncated to length.
+- (SPPoint *)truncateLength:(float)maxLength;
+
 /// Returns the dot-product of self and the given point.
 - (float)dot:(SPPoint *)other;
 
 /// Compares two points.
-- (BOOL)isEquivalent:(SPPoint *)other;
+- (BOOL)isEqualToPoint:(SPPoint *)other;
 
 /// Copies the values from another point into the current point.
 - (void)copyFromPoint:(SPPoint *)point;

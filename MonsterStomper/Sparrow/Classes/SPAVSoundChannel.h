@@ -3,7 +3,7 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 29.05.10.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
@@ -11,9 +11,9 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <Sparrow/SPSoundChannel.h>
 
-#import "SPSoundChannel.h"
-#import "SPAVSound.h"
+@class SPAVSound;
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -26,11 +26,11 @@
 
 @interface SPAVSoundChannel : SPSoundChannel <AVAudioPlayerDelegate> 
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a sound channel from an SPAVSound object.
-- (id)initWithSound:(SPAVSound *)sound;
+- (instancetype)initWithSound:(SPAVSound *)sound;
 
 @end

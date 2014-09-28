@@ -3,15 +3,15 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 09.05.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPAnimatable.h"
-#import "SPMacros.h"
+#import <Sparrow/SPAnimatable.h>
+#import <Sparrow/SPMacros.h>
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@
  A juggler is a simple object. It does no more than saving a list of objects implementing 
  `SPAnimatable` and advancing their time if it is told to do so (by calling its own `advanceTime:`
  method). Furthermore, an object can request to be removed from the juggler by dispatching an
- `SP_EVENT_TYPE_REMOVE_FROM_JUGGLER` event.
+ `SPEventTypeRemoveFromJuggler` event.
  
  There is a default juggler that you can access from anywhere with the following code:
  
@@ -46,12 +46,12 @@
 
 @interface SPJuggler : NSObject <SPAnimatable>
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Factory method.
-+ (SPJuggler *)juggler;
++ (instancetype)juggler;
 
 /// -------------
 /// @name Methods
@@ -86,5 +86,9 @@
 
 /// The total life time of the juggler.
 @property (nonatomic, readonly) double elapsedTime;
+
+/// The speed factor adjusts how fast a juggler's animatables run.
+/// For example, a speed factor of 2.0 means the juggler runs twice as fast.
+@property (nonatomic, assign) float speed;
 
 @end

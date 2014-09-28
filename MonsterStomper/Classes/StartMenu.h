@@ -6,8 +6,6 @@
 //
 //
 
-#import "SPDisplayObject.h"
-#import "SPTextField.h"
 
 @interface StartMenu : SPSprite
 

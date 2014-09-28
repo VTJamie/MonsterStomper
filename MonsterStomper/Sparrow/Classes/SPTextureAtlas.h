@@ -3,7 +3,7 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 27.06.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
@@ -11,8 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class SPTexture;
 @class SPRectangle;
+@class SPTexture;
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -57,21 +57,21 @@
 
 @interface SPTextureAtlas : NSObject
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a texture atlas from an XML file and a custom texture. _Designated Initializer_.
-- (id)initWithContentsOfFile:(NSString *)path texture:(SPTexture *)texture;
+- (instancetype)initWithContentsOfFile:(NSString *)path texture:(SPTexture *)texture;
 
 /// Initializes a texture atlas from an XML file, loading the texture that is specified in the XML.
-- (id)initWithContentsOfFile:(NSString *)path;
+- (instancetype)initWithContentsOfFile:(NSString *)path;
 
 /// Initializes a teture atlas from a texture. Add the regions manually with `addName:forRegion:`.
-- (id)initWithTexture:(SPTexture *)texture;
+- (instancetype)initWithTexture:(SPTexture *)texture;
 
 /// Factory Method.
-+ (id)atlasWithContentsOfFile:(NSString *)path;
++ (instancetype)atlasWithContentsOfFile:(NSString *)path;
 
 /// -------------
 /// @name Methods
@@ -98,6 +98,11 @@
 
 /// Creates a region for a subtexture with a frame and gives it a name.
 - (void)addRegion:(SPRectangle *)region withName:(NSString *)name frame:(SPRectangle *)frame;
+
+/// Creates a region for a subtexture with a frame and gives it a name. If `rotated` is `YES`,
+/// the subtexture will show the region rotated by 90 degrees (CCW).
+- (void)addRegion:(SPRectangle *)region withName:(NSString *)name frame:(SPRectangle *)frame
+          rotated:(BOOL)rotated;
 
 /// Removes a region with a certain name.
 - (void)removeRegion:(NSString *)name;

@@ -3,7 +3,7 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 03.05.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
@@ -23,19 +23,19 @@
 
 @interface SPTouchProcessor : NSObject 
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a touch processor with a certain root object.
-- (id)initWithRoot:(SPDisplayObjectContainer*)root;
+- (instancetype)initWithRoot:(SPDisplayObjectContainer *)root;
 
 /// -------------
 /// @name Methods
 /// -------------
 
 /// @name Processes raw touches and dispatches events on the touched display objects.
-- (void)processTouches:(NSSet*)touches;
+- (void)processTouches:(NSSet *)touches;
 
 /// ----------------
 /// @name Properties

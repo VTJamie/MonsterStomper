@@ -3,18 +3,17 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 01.05.10.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPSprite.h"
-#import "SPTexture.h"
-#import "SPAnimatable.h"
-#import "SPImage.h"
-#import "SPSoundChannel.h"
+#import <Sparrow/SPAnimatable.h>
+#import <Sparrow/SPImage.h>
+
+@class SPSoundChannel;
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -27,7 +26,7 @@
  frame a custom duration. You can also play a sound whenever a certain frame appears.
  
  The methods `play` and `pause` control playback of the movie. You will receive an event of type
- `SP_EVENT_TYPE_COMPLETED` when the movie finished playback. When the movie is looping,
+ `SPEventTypeCompleted` when the movie finished playback. When the movie is looping,
  the event is dispatched once per loop.
  
  As any animated object, a movie clip has to be added to a juggler (or have its `advanceTime:` 
@@ -37,21 +36,21 @@
  
 @interface SPMovieClip : SPImage <SPAnimatable>
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a movie with the first frame and the default number of frames per second. _Designated initializer_.
-- (id)initWithFrame:(SPTexture *)texture fps:(float)fps;
+- (instancetype)initWithFrame:(SPTexture *)texture fps:(float)fps;
 
 /// Initializes a movie with an array of textures and the default number of frames per second.
-- (id)initWithFrames:(NSArray *)textures fps:(float)fps;
+- (instancetype)initWithFrames:(NSArray *)textures fps:(float)fps;
 
 /// Factory method.
-+ (id)movieWithFrame:(SPTexture *)texture fps:(float)fps;
++ (instancetype)movieWithFrame:(SPTexture *)texture fps:(float)fps;
 
 /// Factory method.
-+ (id)movieWithFrames:(NSArray *)textures fps:(float)fps;
++ (instancetype)movieWithFrames:(NSArray *)textures fps:(float)fps;
 
 /// --------------------------------
 /// @name Frame Manipulation Methods
@@ -74,7 +73,7 @@
 
 /// Adds a frame with a certain texture, duration and sound.
 - (void)addFrameWithTexture:(SPTexture *)texture duration:(double)duration
-                     sound:(SPSoundChannel *)sound atIndex:(int)frameID;
+                      sound:(SPSoundChannel *)sound atIndex:(int)frameID;
 
 /// Removes the frame at the specified index. The successors will move up.
 - (void)removeFrameAtIndex:(int)frameID;

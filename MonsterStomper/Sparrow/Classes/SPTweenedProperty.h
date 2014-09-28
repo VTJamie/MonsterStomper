@@ -3,7 +3,7 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 17.10.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
@@ -22,12 +22,12 @@
 
 @interface SPTweenedProperty : NSObject
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a tween property on a certain target. The start value will be zero.
-- (id)initWithTarget:(id)target name:(NSString *)name endValue:(float)endValue;
+- (instancetype)initWithTarget:(id)target name:(NSString *)name endValue:(float)endValue;
 
 /// ----------------
 /// @name Properties

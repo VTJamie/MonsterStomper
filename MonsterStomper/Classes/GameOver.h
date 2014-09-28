@@ -6,9 +6,6 @@
 //
 //
 
-#import "SPDisplayObject.h"
-#import "SPTextField.h"
-
 @interface GameOver : SPSprite
 
 - (id) initWithScore: (int) score;

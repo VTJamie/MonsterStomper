@@ -3,19 +3,19 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 18.02.13.
-//  Copyright 2013 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
-#import <GLKit/GLKit.h>
+#import <GLKit/GLKMath.h>
+#import <Sparrow/SPMacros.h>
 
-@class SPRectangle;
 @class SPMatrix;
 @class SPPoint;
+@class SPRectangle;
 
 typedef struct
 {
@@ -32,8 +32,8 @@ typedef struct
     SPVertexColor color;
 } SPVertex;
 
-SPVertexColor SPVertexColorMake(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-SPVertexColor SPVertexColorMakeWithColorAndAlpha(uint rgb, float alpha);
+SP_EXTERN SPVertexColor SPVertexColorMake(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+SP_EXTERN SPVertexColor SPVertexColorMakeWithColorAndAlpha(uint rgb, float alpha);
 
 /** ------------------------------------------------------------------------------------------------
  
@@ -64,21 +64,21 @@ SPVertexColor SPVertexColorMakeWithColorAndAlpha(uint rgb, float alpha);
  
 ------------------------------------------------------------------------------------------------- */
 
-@interface SPVertexData : NSObject
+@interface SPVertexData : NSObject <NSCopying>
 
-/// ------------------
-/// @name Initializers
-/// ------------------
+/// --------------------
+/// @name Initialization
+/// --------------------
 
 /// Initializes a VertexData instance with a certain size. _Designated Initializer_.
-- (id)initWithSize:(int)numVertices premultipliedAlpha:(BOOL)pma;
+- (instancetype)initWithSize:(int)numVertices premultipliedAlpha:(BOOL)pma;
 
 /// Initializes a VertexData instance with a certain size, disabling premultiplied alpha.
-- (id)initWithSize:(int)numVertices;
+- (instancetype)initWithSize:(int)numVertices;
 
 /// Initializes an empty VertexData object. Use the `appendVertex:` method and the `numVertices`
 /// property to change its size later.
-- (id)init;
+- (instancetype)init;
 
 /// -------------
 /// @name Methods
@@ -171,7 +171,7 @@ SPVertexColor SPVertexColorMakeWithColorAndAlpha(uint rgb, float alpha);
 /// ----------------
 
 /// Returns a pointer to the raw vertex data.
-@property (nonatomic, readonly) SPVertex* vertices;
+@property (nonatomic, readonly) SPVertex *vertices;
 
 /// Indicates the size of the VertexData object. You can resize the object any time; if you
 /// make it bigger, it will be filled up with vertices that have all properties zeroed, except

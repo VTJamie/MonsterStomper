@@ -3,33 +3,37 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 15.03.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPDisplayObjectContainer.h"
-#import "SPEnterFrameEvent.h"
-#import "SPDisplayObject_Internal.h"
-#import "SPMacros.h"
-#import "SPEvent_Internal.h"
-#import "SPRenderSupport.h"
+#import <Sparrow/SPDisplayObjectContainer_Internal.h>
+#import <Sparrow/SPDisplayObject_Internal.h>
+#import <Sparrow/SPEnterFrameEvent.h>
+#import <Sparrow/SPEvent_Internal.h>
+#import <Sparrow/SPFragmentFilter.h>
+#import <Sparrow/SPMacros.h>
+#import <Sparrow/SPMatrix.h>
+#import <Sparrow/SPPoint.h>
+#import <Sparrow/SPRectangle.h>
+#import <Sparrow/SPRenderSupport.h>
 
 // --- C functions ---------------------------------------------------------------------------------
 
-static void getChildEventListeners(SPDisplayObject *object, NSString *eventType, 
-                                   NSMutableArray *listeners)
+static void getDescendantEventListeners(SPDisplayObject *object, NSString *eventType,
+                                        NSMutableArray *listeners)
 {
     // some events (ENTER_FRAME, ADDED_TO_STAGE, etc.) are dispatched very often and traverse
     // the entire display tree -- thus, it pays off handling them in their own c function.
-    
+
     if ([object hasEventListenerForType:eventType])
         [listeners addObject:object];
-    
+
     if ([object isKindOfClass:[SPDisplayObjectContainer class]])
-        for (SPDisplayObject *child in (SPDisplayObjectContainer *)object)        
-            getChildEventListeners(child, eventType, listeners);
+        for (SPDisplayObject *child in (SPDisplayObjectContainer *)object)
+            getDescendantEventListeners(child, eventType, listeners);
 }
 
 // --- class implementation ------------------------------------------------------------------------
@@ -37,18 +41,21 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
 @implementation SPDisplayObjectContainer
 {
     NSMutableArray *_children;
+    BOOL _touchGroup;
 }
 
-- (id)init
+#pragma mark Initialization
+
+- (instancetype)init
 {    
-    #if DEBUG    
+  #if DEBUG
     if ([[self class] isEqual:[SPDisplayObjectContainer class]]) 
     { 
-        [NSException raise:SP_EXC_ABSTRACT_CLASS 
+        [NSException raise:SPExceptionAbstractClass
                     format:@"Attempting to instantiate SPDisplayObjectContainer directly."];
         return nil; 
     }    
-    #endif
+  #endif
     
     if ((self = [super init])) 
     {
@@ -56,6 +63,16 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
     }    
     return self;
 }
+
+- (void)dealloc
+{
+    // 'self' is becoming invalid; thus, we have to remove any references to it.
+    [_children makeObjectsPerformSelector:@selector(setParent:) withObject:nil];
+    [_children release];
+    [super dealloc];
+}
+
+#pragma mark Methods
 
 - (void)addChild:(SPDisplayObject *)child
 {
@@ -66,16 +83,19 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
 {
     if (index >= 0 && index <= [_children count])
     {
+        [child retain];
         [child removeFromParent];
         [_children insertObject:child atIndex:MIN(_children.count, index)];
         child.parent = self;
-        
-        [child dispatchEventWithType:SP_EVENT_TYPE_ADDED];
-        
+
+        [child dispatchEventWithType:SPEventTypeAdded];
+
         if (self.stage)
-            [child broadcastEventWithType:SP_EVENT_TYPE_ADDED_TO_STAGE];
+            [child broadcastEventWithType:SPEventTypeAddedToStage];
+
+        [child release];
     }
-    else [NSException raise:SP_EXC_INDEX_OUT_OF_BOUNDS format:@"Invalid child index"]; 
+    else [NSException raise:SPExceptionIndexOutOfBounds format:@"Invalid child index"]; 
 }
 
 - (BOOL)containsChild:(SPDisplayObject *)child
@@ -113,11 +133,13 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
 {
     NSUInteger oldIndex = [_children indexOfObject:child];
     if (oldIndex == NSNotFound) 
-        [NSException raise:SP_EXC_INVALID_OPERATION format:@"Not a child of this container"];
+        [NSException raise:SPExceptionInvalidOperation format:@"Not a child of this container"];
     else
     {
+        [child retain];
         [_children removeObjectAtIndex:oldIndex];
         [_children insertObject:child atIndex:index];
+        [child release];
     }
 }
 
@@ -133,19 +155,19 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
     if (index >= 0 && index < [_children count])
     {
         SPDisplayObject *child = _children[index];
-        [child dispatchEventWithType:SP_EVENT_TYPE_REMOVED];
-        
+        [child dispatchEventWithType:SPEventTypeRemoved];
+
         if (self.stage)
-            [child broadcastEventWithType:SP_EVENT_TYPE_REMOVED_FROM_STAGE];
+            [child broadcastEventWithType:SPEventTypeRemovedFromStage];
         
         child.parent = nil; 
         NSUInteger newIndex = (int)[_children indexOfObject:child]; // index might have changed in event handler
         if (newIndex != NSNotFound) [_children removeObjectAtIndex:newIndex];
     }
-    else [NSException raise:SP_EXC_INDEX_OUT_OF_BOUNDS format:@"Invalid child index"];        
+    else [NSException raise:SPExceptionIndexOutOfBounds format:@"Invalid child index"];        
 }
 
-- (void)swapChild:(SPDisplayObject*)child1 withChild:(SPDisplayObject*)child2
+- (void)swapChild:(SPDisplayObject *)child1 withChild:(SPDisplayObject *)child2
 {
     int index1 = [self childIndex:child1];
     int index2 = [self childIndex:child2];
@@ -156,7 +178,7 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
 {    
     int numChildren = (int)[_children count];
     if (index1 < 0 || index1 >= numChildren || index2 < 0 || index2 >= numChildren)
-        [NSException raise:SP_EXC_INVALID_OPERATION format:@"invalid child indices"];
+        [NSException raise:SPExceptionInvalidOperation format:@"invalid child indices"];
     [_children exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
 }
 
@@ -165,7 +187,7 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
     if ([_children respondsToSelector:@selector(sortWithOptions:usingComparator:)])
         [_children sortWithOptions:NSSortStable usingComparator:comparator];
     else
-        [NSException raise:SP_EXC_INVALID_OPERATION 
+        [NSException raise:SPExceptionInvalidOperation 
                     format:@"sortChildren is only available in iOS 4 and above"];
 }
 
@@ -180,78 +202,7 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
     return (int)[_children count];
 }
 
-- (SPRectangle*)boundsInSpace:(SPDisplayObject*)targetSpace
-{    
-    int numChildren = (int)[_children count];
-
-    if (numChildren == 0)
-    {
-        SPMatrix *transformationMatrix = [self transformationMatrixToSpace:targetSpace];
-        SPPoint *transformedPoint = [transformationMatrix transformPointWithX:self.x y:self.y];
-        return [SPRectangle rectangleWithX:transformedPoint.x y:transformedPoint.y 
-                                     width:0.0f height:0.0f];
-    }
-    else if (numChildren == 1)
-    {
-        return [_children[0] boundsInSpace:targetSpace];
-    }
-    else
-    {
-        float minX = FLT_MAX, maxX = -FLT_MAX, minY = FLT_MAX, maxY = -FLT_MAX;    
-        for (SPDisplayObject *child in _children)
-        {
-            SPRectangle *childBounds = [child boundsInSpace:targetSpace];        
-            minX = MIN(minX, childBounds.x);
-            maxX = MAX(maxX, childBounds.x + childBounds.width);
-            minY = MIN(minY, childBounds.y);
-            maxY = MAX(maxY, childBounds.y + childBounds.height);        
-        }    
-        return [SPRectangle rectangleWithX:minX y:minY width:maxX-minX height:maxY-minY];
-    }
-}
-
-- (SPDisplayObject*)hitTestPoint:(SPPoint*)localPoint
-{
-    if (!self.visible || !self.touchable)
-        return nil;
-    
-    for (int i=(int)[_children count]-1; i>=0; --i) // front to back!
-    {
-        SPDisplayObject *child = _children[i];
-        SPMatrix *transformationMatrix = [self transformationMatrixToSpace:child];
-        SPPoint  *transformedPoint = [transformationMatrix transformPoint:localPoint];
-        SPDisplayObject *target = [child hitTestPoint:transformedPoint];
-        if (target) return target;
-    }
-    
-    return nil;
-}
-
-- (void)broadcastEvent:(SPEvent *)event
-{
-    if (event.bubbles) 
-        [NSException raise:SP_EXC_INVALID_OPERATION 
-                    format:@"Broadcast of bubbling events is prohibited"];
-    
-    // the event listeners might modify the display tree, which could make the loop crash. 
-    // thus, we collect them in a list and iterate over that list instead.
-    NSMutableArray *listeners = [[NSMutableArray alloc] init];
-    getChildEventListeners(self, event.type, listeners);
-    [event setTarget:self];
-    [listeners makeObjectsPerformSelector:@selector(dispatchEvent:) withObject:event];
-}
-
-- (void)broadcastEventWithType:(NSString *)type
-{
-    SPEvent *event = [[SPEvent alloc] initWithType:type bubbles:NO];
-    [self broadcastEvent:event];
-}
-
-- (void)dealloc 
-{
-    // 'self' is becoming invalid; thus, we have to remove any references to it.    
-    [_children makeObjectsPerformSelector:@selector(setParent:) withObject:nil];
-}
+#pragma mark SPDisplayObject
 
 - (void)render:(SPRenderSupport *)support
 {
@@ -262,12 +213,84 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
             [support pushStateWithMatrix:child.transformationMatrix
                                    alpha:child.alpha
                                blendMode:child.blendMode];
-            
-            [child render:support];
-            
+
+            if (child.filter) [child.filter renderObject:child support:support];
+            else              [child render:support];
+
             [support popState];
         }
     }
+}
+
+- (SPRectangle *)boundsInSpace:(SPDisplayObject *)targetSpace
+{
+    int numChildren = (int)[_children count];
+
+    if (numChildren == 0)
+    {
+        SPMatrix *transformationMatrix = [self transformationMatrixToSpace:targetSpace];
+        SPPoint *transformedPoint = [transformationMatrix transformPointWithX:self.x y:self.y];
+        return [SPRectangle rectangleWithX:transformedPoint.x y:transformedPoint.y
+                                     width:0.0f height:0.0f];
+    }
+    else if (numChildren == 1)
+    {
+        return [_children[0] boundsInSpace:targetSpace];
+    }
+    else
+    {
+        float minX = FLT_MAX, maxX = -FLT_MAX, minY = FLT_MAX, maxY = -FLT_MAX;
+        for (SPDisplayObject *child in _children)
+        {
+            SPRectangle *childBounds = [child boundsInSpace:targetSpace];
+            minX = MIN(minX, childBounds.x);
+            maxX = MAX(maxX, childBounds.x + childBounds.width);
+            minY = MIN(minY, childBounds.y);
+            maxY = MAX(maxY, childBounds.y + childBounds.height);
+        }
+        return [SPRectangle rectangleWithX:minX y:minY width:maxX-minX height:maxY-minY];
+    }
+}
+
+- (SPDisplayObject *)hitTestPoint:(SPPoint *)localPoint
+{
+    if (!self.visible || !self.touchable)
+        return nil;
+
+    for (int i=(int)[_children count]-1; i>=0; --i) // front to back!
+    {
+        SPDisplayObject *child = _children[i];
+        SPMatrix *transformationMatrix = [self transformationMatrixToSpace:child];
+        SPPoint  *transformedPoint = [transformationMatrix transformPoint:localPoint];
+        SPDisplayObject *target = [child hitTestPoint:transformedPoint];
+
+        if (target)
+            return _touchGroup ? self : target;
+    }
+
+    return nil;
+}
+
+- (void)broadcastEvent:(SPEvent *)event
+{
+    if (event.bubbles)
+        [NSException raise:SPExceptionInvalidOperation
+                    format:@"Broadcast of bubbling events is prohibited"];
+
+    // the event listeners might modify the display tree, which could make the loop crash.
+    // thus, we collect them in a list and iterate over that list instead.
+    NSMutableArray *listeners = [[NSMutableArray alloc] init];
+    [self appendDescendantEventListenersOfObject:self withEventType:event.type toArray:listeners];
+    [event setTarget:self];
+    [listeners makeObjectsPerformSelector:@selector(dispatchEvent:) withObject:event];
+    [listeners release];
+}
+
+- (void)broadcastEventWithType:(NSString *)type
+{
+    SPEvent *event = [[SPEvent alloc] initWithType:type bubbles:NO];
+    [self broadcastEvent:event];
+    [event release];
 }
 
 #pragma mark NSFastEnumeration
@@ -277,6 +300,18 @@ static void getChildEventListeners(SPDisplayObject *object, NSString *eventType,
                                     count:(NSUInteger)len
 {
     return [_children countByEnumeratingWithState:state objects:stackbuf count:len];
+}
+
+@end
+
+// -------------------------------------------------------------------------------------------------
+
+@implementation SPDisplayObjectContainer (Internal)
+
+- (void)appendDescendantEventListenersOfObject:(SPDisplayObject *)object withEventType:(NSString *)type
+                                       toArray:(NSMutableArray *)listeners
+{
+    getDescendantEventListeners(object, type, listeners);
 }
 
 @end

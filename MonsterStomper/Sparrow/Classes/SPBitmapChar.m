@@ -3,14 +3,16 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 12.10.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPBitmapChar.h"
-#import "SPTexture.h"
+#import <Sparrow/SPBitmapChar.h>
+#import <Sparrow/SPImage.h>
+#import <Sparrow/SPMacros.h>
+#import <Sparrow/SPTexture.h>
 
 @implementation SPBitmapChar
 {
@@ -22,18 +24,14 @@
     NSMutableDictionary *_kernings;
 }
 
-@synthesize charID = _charID;
-@synthesize xOffset = _xOffset;
-@synthesize yOffset = _yOffset;
-@synthesize xAdvance = _xAdvance;
-@synthesize texture = _texture;
+#pragma mark Initialization
 
-- (id)initWithID:(int)charID texture:(SPTexture *)texture
+- (instancetype)initWithID:(int)charID texture:(SPTexture *)texture
          xOffset:(float)xOffset yOffset:(float)yOffset xAdvance:(float)xAdvance;
 {
     if ((self = [super init]))
     {
-        _texture = texture;
+        _texture = [texture retain];
         _charID = charID;
         _xOffset = xOffset;
         _yOffset = yOffset;
@@ -43,15 +41,25 @@
     return self;
 }
 
-- (id)initWithTexture:(SPTexture *)texture
+- (instancetype)initWithTexture:(SPTexture *)texture
 {
     return [self initWithID:0 texture:texture xOffset:0 yOffset:0 xAdvance:texture.width];
 }
 
-- (id)init
+- (instancetype)init
 {
+    [self release];
     return nil;
 }
+
+- (void)dealloc
+{
+    [_texture release];
+    [_kernings release];
+    [super dealloc];
+}
+
+#pragma mark Methods
 
 - (void)addKerning:(float)amount toChar:(int)charID
 {
@@ -71,6 +79,8 @@
 {
     return [SPImage imageWithTexture:_texture];
 }
+
+#pragma mark Properties
 
 - (float)width
 {

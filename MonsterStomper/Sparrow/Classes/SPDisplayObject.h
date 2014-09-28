@@ -3,20 +3,26 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 15.03.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPEventDispatcher.h"
-#import "SPRectangle.h"
-#import "SPMatrix.h"
+#import <Sparrow/SPEventDispatcher.h>
+
+#ifdef SP_PHYSICS_CLASS
+@class SP_PHYSICS_CLASS;
+#endif
 
 @class SPDisplayObjectContainer;
-@class SPStage;
+@class SPFragmentFilter;
+@class SPMatrix;
+@class SPPoint;
+@class SPRectangle;
 @class SPRenderSupport;
+@class SPStage;
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -64,8 +70,8 @@
  
  You will need to implement the following methods when you subclass SPDisplayObject:
  
-	- (void)render:(SPRenderSupport*)support;
-	- (SPRectangle*)boundsInSpace:(SPDisplayObject*)targetSpace;
+	- (void)render:(SPRenderSupport *)support;
+	- (SPRectangle *)boundsInSpace:(SPDisplayObject *)targetSpace;
  
  Have a look at SPQuad for a sample implementation of those methods. 
  
@@ -78,25 +84,31 @@
 /// -------------
 
 /// Renders the display object with the help of a support object. 
-- (void)render:(SPRenderSupport*)support;
+- (void)render:(SPRenderSupport *)support;
 
 /// Removes the object from its parent, if it has one.
 - (void)removeFromParent;
 
+/// Moves the pivot point to the center of the object.
+- (void)alignPivotToCenter;
+
+/// Moves the pivot point to a certain position within the local coordinate system of the object.
+- (void)alignPivotX:(SPHAlign)hAlign pivotY:(SPVAlign)vAlign;
+
 /// Creates a matrix that represents the transformation from the local coordinate system to another.
-- (SPMatrix*)transformationMatrixToSpace:(SPDisplayObject*)targetSpace;
+- (SPMatrix *)transformationMatrixToSpace:(SPDisplayObject *)targetSpace;
 
 /// Returns a rectangle that completely encloses the object as it appears in another coordinate system.
-- (SPRectangle*)boundsInSpace:(SPDisplayObject*)targetSpace;
+- (SPRectangle *)boundsInSpace:(SPDisplayObject *)targetSpace;
 
 /// Transforms a point from the local coordinate system to global (stage) coordinates.
-- (SPPoint*)localToGlobal:(SPPoint*)localPoint;
+- (SPPoint *)localToGlobal:(SPPoint *)localPoint;
 
 /// Transforms a point from global (stage) coordinates to the local coordinate system.
-- (SPPoint*)globalToLocal:(SPPoint*)globalPoint;
+- (SPPoint *)globalToLocal:(SPPoint *)globalPoint;
 
 /// Returns the object that is found topmost on a point in local coordinates, or nil if the test fails.
-- (SPDisplayObject*)hitTestPoint:(SPPoint*)localPoint;
+- (SPDisplayObject *)hitTestPoint:(SPPoint *)localPoint;
 
 /// Dispatches an event on all children (recursively). The event must not bubble. */
 - (void)broadcastEvent:(SPEvent *)event;
@@ -119,6 +131,10 @@
 
 /// The y coordinate of the object's origin in its own coordinate space (default: 0).
 @property (nonatomic, assign) float pivotY;
+
+/// The scale factor. "1" means no scale, a negative value inverts the object.
+/// Note: Accessing this property will always return scaleX, even if scaleX and scaleY are not equal.
+@property (nonatomic, assign) float scale;
 
 /// The horizontal scale factor. "1" means no scale, negative values flip the object.
 @property (nonatomic, assign) float scaleX;
@@ -174,11 +190,24 @@
 /// The name of the display object (default: nil). Used by `childByName:` of display object containers.
 @property (nonatomic, copy) NSString *name;
 
+/// The filter that is attached to the display object. Beware that you should NOT use the same
+/// filter on more than one object (for performance reasons).
+@property (nonatomic, strong) SPFragmentFilter *filter;
+
 /// The blend mode determines how the object is blended with the objects underneath. Default: AUTO
 @property (nonatomic, assign) uint blendMode;
 
 /// Indicates if an object occupies any visible area. (Which is the case when its `alpha`,
 /// `scaleX` and `scaleY` values are not zero, and its `visible` property is enabled.)
 @property (nonatomic, readonly) BOOL hasVisibleArea;
+
+/// The physics body associated with the display object. Sparrow does not provide physics on its
+/// own, but this property may be used by any physics library to link an object to its physical
+/// body.
+#ifdef SP_PHYSICS_CLASS
+@property (nonatomic, strong) SP_PHYSICS_CLASS *physicsBody;
+#else
+@property (nonatomic, strong) id physicsBody;
+#endif
 
 @end

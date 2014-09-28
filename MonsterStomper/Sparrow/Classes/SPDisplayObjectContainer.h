@@ -3,14 +3,14 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 15.03.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPDisplayObject.h"
+#import <Sparrow/SPDisplayObject.h>
 
 /** ------------------------------------------------------------------------------------------------
  
@@ -34,11 +34,11 @@
  
  Adding and removing objects from a container triggers non-bubbling events.
  
- - `SP_EVENT_TYPE_ADDED`: the object was added to a parent.
- - `SP_EVENT_TYPE_ADDED_TO_STAGE`: the object was added to a parent that is connected to the stage,
+ - `SPEventTypeAdded`: the object was added to a parent.
+ - `SPEventTypeAddedToStage`: the object was added to a parent that is connected to the stage,
                                    thus becoming visible now.
- - `SP_EVENT_TYPE_REMOVED`: the object was removed from a parent.
- - `SP_EVENT_TYPE_REMOVED_FROM_STAGE`: the object was removed from a parent that is connected to 
+ - `SPEventTypeRemoved`: the object was removed from a parent.
+ - `SPEventTypeRemovedFromStage`: the object was removed from a parent that is connected to 
                                        the stage, thus becoming invisible now.
  
  Especially the `ADDED_TO_STAGE` event is very helpful, as it allows you to automatically execute
@@ -96,7 +96,7 @@
 - (void)removeAllChildren;
 
 /// Swaps the indexes of two children.
-- (void)swapChild:(SPDisplayObject*)child1 withChild:(SPDisplayObject*)child2;
+- (void)swapChild:(SPDisplayObject *)child1 withChild:(SPDisplayObject *)child2;
 
 /// Swaps the indexes of two children.
 - (void)swapChildAtIndex:(int)index1 withChildAtIndex:(int)index2;
@@ -111,5 +111,9 @@
 /// The number of children of this container.
 @property (nonatomic, readonly) int numChildren;
 
+/// If a container is a 'touchGroup', it will act as a single touchable object.
+/// Touch events will have the container as target, not the touched child (similar to
+/// 'mouseChildren' in Flash, but with inverted logic). Default: `NO`
+@property (nonatomic, assign) BOOL touchGroup;
 
 @end

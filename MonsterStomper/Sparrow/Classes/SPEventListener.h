@@ -3,14 +3,14 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 28.02.13.
-//  Copyright 2013 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
 #import <Foundation/Foundation.h>
-#import "SPEventDispatcher.h"
+#import <Sparrow/SPEventDispatcher.h>
 
 @class SPEvent;
 
@@ -28,13 +28,13 @@
 /// Initializes an event listener with the specified properties. Note that `target` and `selector`
 /// are only used by the `fitsTarget:` method; it's always the block that will be invoked.
 /// _Designated Initializer._
-- (id)initWithTarget:(id)target selector:(SEL)selector block:(SPEventBlock)block;
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector block:(SPEventBlock)block;
 
 /// Initializes an event listener from a target and a selector.
-- (id)initWithTarget:(id)target selector:(SEL)selector;
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector;
 
 /// Initializes an event listener from a block.
-- (id)initWithBlock:(SPEventBlock)block;
+- (instancetype)initWithBlock:(SPEventBlock)block;
 
 /// Invokes the event block with a certain event.
 - (void)invokeWithEvent:(SPEvent *)event;

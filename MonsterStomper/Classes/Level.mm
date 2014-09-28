@@ -43,12 +43,12 @@
 - (LevelModel*) loadLevel {
     
     NSError* error = nil;
-    NSString *levelname = [NSString stringWithFormat:@"Level_%d", self.levelnumber];
+    NSString *levelname = @"Levels";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:levelname ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filePath];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     
-    return [[LevelModel alloc] initWithDict:json];
+    return [[LevelModel alloc] initWithDict:[json objectAtIndex:self.levelnumber-1]];
 }
 
 

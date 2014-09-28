@@ -3,7 +3,7 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 01.05.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
@@ -15,14 +15,14 @@
 @class SPPoint;
 
 /// SPTouchPhase describes the phases in the life-cycle of a touch.
-typedef enum 
+typedef NS_ENUM(int, SPTouchPhase)
 {    
-    SPTouchPhaseBegan = 0,  /// The finger just touched the screen.    
+    SPTouchPhaseBegan,      /// The finger just touched the screen.
     SPTouchPhaseMoved,      /// The finger moves around.    
     SPTouchPhaseStationary, /// The finger has not moved since the last frame.    
     SPTouchPhaseEnded,      /// The finger was lifted from the screen.    
     SPTouchPhaseCancelled   /// The touch was aborted by the system (e.g. because of an AlertBox popping up)
-} SPTouchPhase;
+};
 
 /** ------------------------------------------------------------------------------------------------
 
@@ -94,6 +94,6 @@ typedef enum
 @property (nonatomic, readonly) SPTouchPhase phase;
 
 /// The display object at which the touch occurred.
-@property (weak, nonatomic, readonly) SPDisplayObject *target;
+@property (nonatomic, readonly) SPDisplayObject *target;
 
 @end

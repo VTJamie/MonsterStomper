@@ -3,14 +3,13 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 03.05.09.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import <Foundation/Foundation.h>
-#import "SPTouch.h"
+#import <Sparrow/SPTouch.h>
 
 @interface SPTouch (Internal)
 
@@ -25,6 +24,6 @@
 
 + (SPTouch *)touch;
 
-@property (nonatomic, strong) id nativeTouch;
+@property (nonatomic, assign) size_t touchID;
 
 @end

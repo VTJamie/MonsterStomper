@@ -3,22 +3,27 @@
 //  Sparrow
 //
 //  Created by Daniel Sperl on 04.01.11.
-//  Copyright 2011 Gamua. All rights reserved.
+//  Copyright 2011-2014 Gamua. All rights reserved.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the Simplified BSD License.
 //
 
-#import "SPUtils.h"
-#import "SPNSExtensions.h"
-#import "SparrowClass.h"
+#import <Sparrow/SparrowClass.h>
+#import <Sparrow/SPNSExtensions.h>
+#import <Sparrow/SPUtils.h>
 
-#import <GLKit/GLKit.h>
 #import <sys/stat.h>
 
 @implementation SPUtils
 
-#pragma mark - Math Utils
+- (instancetype)init
+{
+    [NSException raise:NSGenericException format:@"Static class - do not initialize!"];
+    return nil;
+}
+
+#pragma mark Math Utils
 
 + (int)nextPowerOfTwo:(int)number
 {    
@@ -37,12 +42,17 @@
     return (int)(minValue + [self randomFloat] * (maxValue - minValue));
 }
 
++ (float)randomFloatBetweenMin:(float)minValue andMax:(float)maxValue
+{
+    return (float)(minValue + [self randomFloat] * (maxValue - minValue));
+}
+
 + (float)randomFloat
 {
     return (float) arc4random() / UINT_MAX;
 }
 
-#pragma mark - File Utils
+#pragma mark File Utils
 
 + (BOOL)fileExistsAtPath:(NSString *)path
 {
